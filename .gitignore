@@ -1,5 +1,12 @@
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Claude Code (Repo organization)
 .claude/
+
+# LaTeX source
 latex/
+
+# Internal planning docs
+docs/
