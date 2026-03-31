@@ -1,5 +1,5 @@
 # project/data/load_toolbench.py
-import json, os
+import json, os, re
 import logging
 from pathlib import Path
 
@@ -21,7 +21,7 @@ def load_api_corpus(tools_dir: Path = TOOLBENCH_DIR / "toolenv" / "tools") -> li
         cat_path = tools_dir / category
         if not cat_path.is_dir() or category.startswith("."):
             continue
-        for fname in os.listdir(cat_path):
+        for fname in sorted(os.listdir(cat_path)):
             if not fname.endswith(".json"):
                 continue
             with open(cat_path / fname) as f:
@@ -29,10 +29,15 @@ def load_api_corpus(tools_dir: Path = TOOLBENCH_DIR / "toolenv" / "tools") -> li
             if not content.strip():
                 continue
             tool = json.loads(content)
-            tool_name = tool.get("tool_name", fname.replace(".json", ""))
+            tool_stem = fname.replace(".json", "")
+            tool_name = tool.get("tool_name", tool_stem)
             for endpoint in tool.get("api_list", []):
+                ep_name = endpoint.get("name", "")
+                snake = re.sub(r"[^a-z0-9]+", "_", ep_name.lower()).strip("_")
+                action_name = f"{snake}_for_{tool_stem}"
                 apis.append({
-                    "name": endpoint.get("name", ""),
+                    "name": ep_name,
+                    "action_name": action_name,
                     "description": endpoint.get("description", ""),
                     "category": category,
                     "tool_name": tool_name,
