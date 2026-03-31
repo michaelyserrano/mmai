@@ -24,12 +24,12 @@ def load_api_corpus(tools_dir: Path = TOOLBENCH_DIR / "toolenv" / "tools") -> li
         for fname in os.listdir(cat_path):
             if not fname.endswith(".json"):
                 continue
-            with open(cat_path / fname) as f:
-                try:
+            try:
+                with open(cat_path / fname) as f:
                     tool = json.load(f)
-                except json.JSONDecodeError:
-                    logger.warning(f"Skipping malformed JSON: {cat_path / fname}")
-                    continue
+            except (ValueError, OSError) as e:
+                logger.warning(f"Skipping {fname}: {e}")
+                continue
             tool_name = tool.get("tool_name", fname.replace(".json", ""))
             for endpoint in tool.get("api_list", []):
                 apis.append({
