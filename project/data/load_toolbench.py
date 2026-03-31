@@ -24,12 +24,11 @@ def load_api_corpus(tools_dir: Path = TOOLBENCH_DIR / "toolenv" / "tools") -> li
         for fname in os.listdir(cat_path):
             if not fname.endswith(".json"):
                 continue
-            try:
-                with open(cat_path / fname) as f:
-                    tool = json.load(f)
-            except (ValueError, OSError) as e:
-                logger.warning(f"Skipping {fname}: {e}")
+            with open(cat_path / fname) as f:
+                content = f.read()
+            if not content.strip():
                 continue
+            tool = json.loads(content)
             tool_name = tool.get("tool_name", fname.replace(".json", ""))
             for endpoint in tool.get("api_list", []):
                 apis.append({
