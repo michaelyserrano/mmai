@@ -3,6 +3,7 @@ import os
 import hashlib
 import logging
 import numpy as np
+import tiktoken
 from pathlib import Path
 from openai import OpenAI
 
@@ -55,8 +56,16 @@ def get_embeddings(texts: list[str], model: str = MODEL, cache_dir: Path = CACHE
         logger.info(f"Fetching {len(uncached_texts)} embeddings from API (cache: {len(texts) - len(uncached_texts)} hits)")
 
     # Batch API calls in chunks of 100
+    # text-embedding-3-small has an 8192 token limit; truncate to 8191 tokens exactly
+    enc = tiktoken.encoding_for_model(model)
+    MAX_TOKENS = 8191
+
+    def _truncate(text: str) -> str:
+        tokens = enc.encode(text)
+        return enc.decode(tokens[:MAX_TOKENS]) if len(tokens) > MAX_TOKENS else text
+
     for chunk_start in range(0, len(uncached_texts), 100):
-        chunk = uncached_texts[chunk_start:chunk_start + 100]
+        chunk = [_truncate(t) for t in uncached_texts[chunk_start:chunk_start + 100]]
         try:
             response = client.embeddings.create(input=chunk, model=model)
         except Exception as e:

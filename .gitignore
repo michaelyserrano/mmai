@@ -10,3 +10,26 @@ latex/
 
 # Internal planning docs
 docs/
+
+# Environment variables
+.env
+.env.*
+
+# ToolBench data (large dataset, not committed)
+toolbench_data/
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Generated large artifacts (re-run notebook 01 to regenerate)
+project/corpus_embeddings.npy
+project/notebooks/.embedding_cache/
