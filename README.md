@@ -24,6 +24,7 @@ We propose a multimodal retrieval system for agentic tool-use, treating natural 
 | 1 | Dataset: Multimodal Data Preprocessing with ToolBench | [HW1](./homework/homework-1/mys1_mmai_HW1.ipynb) |
 | 2 | Fusion: Multimodal Alignment and Fusion Techniques | [HW2](./homework/homework-2/mys1_mmai_HW2.ipynb) |
 | 3 | VLMs: Fine-tuning Vision-Language Models | [HW3](./homework/homework-3/mys1_mmai_HW3.ipynb) |
+| 4 | GRPO: Reinforcement Learning for Vision-Language Models | [HW4](./homework/homework-4/mys1_mmai_HW4.ipynb) |
 
 ## License
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
